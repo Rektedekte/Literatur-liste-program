@@ -3,6 +3,7 @@ import gui
 from database import Database
 from pubsub import pub
 import sys
+import os
 
 
 class LogFrame(gui.LogFrame):
@@ -169,6 +170,9 @@ class MainFrame(gui.MainFrame):
 		if not v:
 			db.delete_all()
 			self.AppendImportFinal(file)
+
+	def KnaggerMoment(self, event):
+		os.popen("knagger.bat")
 
 	def Exit(self, event):
 		""" Close the main window, thus stopping the problem """

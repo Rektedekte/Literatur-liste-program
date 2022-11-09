@@ -36,6 +36,9 @@ class MainFrame ( wx.Frame ):
 		self.delete = wx.Button( self, wx.ID_ANY, u"Slet", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		bSizer2.Add( self.delete, 0, wx.ALL, 5 )
 
+		self.knagger_button = wx.Button( self, wx.ID_ANY, u"Knagger Moment", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer2.Add( self.knagger_button, 0, wx.ALL, 5 )
+
 
 		bSizer16.Add( bSizer2, 1, 0, 5 )
 
@@ -97,6 +100,7 @@ class MainFrame ( wx.Frame ):
 		self.new.Bind( wx.EVT_BUTTON, self.New )
 		self.update_item.Bind( wx.EVT_BUTTON, self.UpdateItem )
 		self.delete.Bind( wx.EVT_BUTTON, self.DeleteItem )
+		self.knagger_button.Bind( wx.EVT_BUTTON, self.KnaggerMoment )
 		self.advanced_search.Bind( wx.EVT_BUTTON, self.Search )
 		self.reset_search.Bind( wx.EVT_BUTTON, self.ResetSearch )
 		self.id_input.Bind( wx.EVT_TEXT, self.IdChange )
@@ -120,6 +124,9 @@ class MainFrame ( wx.Frame ):
 		event.Skip()
 
 	def DeleteItem( self, event ):
+		event.Skip()
+
+	def KnaggerMoment( self, event ):
 		event.Skip()
 
 	def Search( self, event ):
