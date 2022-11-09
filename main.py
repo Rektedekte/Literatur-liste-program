@@ -47,7 +47,7 @@ class MainFrame(gui.MainFrame):
 			self.log_frame = LogFrame(self)
 			self.log_frame.Show()
 
-		self.SetClientSize(self.GetClientSize()[0], 500)
+		self.SetIcon(wx.Icon("icon.png"))
 
 	def OnSize(self, event):
 		"""
@@ -67,8 +67,7 @@ class MainFrame(gui.MainFrame):
 		index = self.id_input.GetValue()
 
 		items = db.select(id=index) if index else db.select()
-		items = [", ".join(str(v) for v in item) for item in items]
-		self.data_view.SetItems(items)
+		self.SetItems(items)
 
 	def SetItems(self, items):
 		"""

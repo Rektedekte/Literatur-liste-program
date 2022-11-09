@@ -17,7 +17,7 @@ import wx.xrc
 class MainFrame ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"LLP - Literatur Liste Program", pos = wx.DefaultPosition, size = wx.Size( 600,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"LLP - Literatur Liste Program", pos = wx.DefaultPosition, size = wx.Size( 600,500 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -47,7 +47,7 @@ class MainFrame ( wx.Frame ):
 		self.reset_search = wx.Button( self, wx.ID_ANY, u"Nulstil Søgning", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		bSizer17.Add( self.reset_search, 0, wx.ALL, 5 )
 
-		self.id_input = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.id_input = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
 		bSizer17.Add( self.id_input, 0, wx.ALL, 5 )
 
 
@@ -59,7 +59,7 @@ class MainFrame ( wx.Frame ):
 		bSizer3 = wx.BoxSizer( wx.VERTICAL )
 
 		data_viewChoices = []
-		self.data_view = wx.ListBox( self, wx.ID_ANY, wx.Point( -1,-1 ), wx.Size( 600,300 ), data_viewChoices, 0 )
+		self.data_view = wx.ListBox( self, wx.ID_ANY, wx.Point( -1,-1 ), wx.Size( 600,360 ), data_viewChoices, 0 )
 		bSizer3.Add( self.data_view, 0, wx.ALL, 5 )
 
 
