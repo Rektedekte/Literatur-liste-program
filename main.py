@@ -12,6 +12,7 @@ class LogFrame(gui.LogFrame):
 	def __init__(self, parent):
 		gui.LogFrame.__init__(self, parent)
 		pub.subscribe(self.listener, "DIN MOR")
+		self.SetIcon(wx.Icon("icon.png"))
 
 	def listener(self, message):
 		"""
@@ -21,13 +22,7 @@ class LogFrame(gui.LogFrame):
 		:return: None
 		"""
 
-		curr = self.log_label.GetLabel()
-
-		if curr:
-			curr += "\n"
-
-		curr += message
-		self.log_label.SetLabel(curr)
+		self.log_text.AppendText(message + "\n")
 
 
 class MainFrame(gui.MainFrame):
@@ -41,7 +36,8 @@ class MainFrame(gui.MainFrame):
 		self.search_dialog = SearchDialog(self)
 		self.new_dialog = NewDialog(self)
 		self.update_dialog = UpdateDialog(self)
-		self.file_dialog = FileDialog(self)
+		self.open_file_dialog = OpenFileDialog(self)
+		self.save_file_dialog = SaveFileDialog(self)
 		self.replace_dialog = ReplaceDialog(self)
 
 		if dbg:
@@ -78,8 +74,10 @@ class MainFrame(gui.MainFrame):
 		:return: None
 		"""
 
-		items = [", ".join(str(v) for v in item) for item in items]
-		self.data_view.SetItems(items)
+		self.data_view.DeleteAllItems()
+
+		for item in items:
+			self.data_view.AppendItem(list(map(str, item)))
 
 	def DeleteItem(self, event):
 		"""
@@ -88,13 +86,28 @@ class MainFrame(gui.MainFrame):
 
 		index = self.id_input.GetValue()
 
-		if not index:
-			index = self.data_view.GetStringSelection().split(", ")[0]
-
 		if index:
-			db.delete(id=index)
-			self.IdChange(event)
-			db.commit()
+			for i in range(self.data_view.ItemCount):  # Iterate through items all items
+				curr = self.data_view.GetValue(i, 0)
+
+				if curr == index:  # If the id-field matches the input
+					pos = i
+					break
+			else:  # Loop finishes without finding index, doesn't exist
+				self.id_input.SetValue("")
+				return
+
+		if not index:  # No id in id_input, get selected value
+			pos = self.data_view.GetSelectedRow()
+
+			if pos == -1:  # No item selected, exit
+				return
+
+			index = self.data_view.GetValue(pos, 0)  # Get the value at the current position
+
+		db.delete(id=index)
+		self.data_view.DeleteItem(pos)
+		db.commit()
 
 	def Search(self, event):
 		""" Start the search-dialog """
@@ -118,20 +131,26 @@ class MainFrame(gui.MainFrame):
 		self.SetItems(db.select())
 
 	def Export(self, event):
-		""" Export database-items into a csv file """
+		""" Export database-items to a user selected file """
+
+		self.save_file_dialog.set_callback(self.ExportFinal)
+		self.save_file_dialog.ShowModal()
+
+	def ExportFinal(self, file):
+		""" Finalize the export of the databse """
 
 		items = db.select()
 		items = "\n".join(", ".join(str(v) for v in item[1:]) for item in items)
 
-		with open("litteratur-liste.csv", "w+", encoding="utf-8") as f:
+		with open(file, "w+", encoding="utf-8") as f:
 			# f.write("navn, forfatter, år, sider\n")
 			f.write(items)
 
 	def AppendImport(self, event):
 		""" Start the file-dialog, and set the callback to AppendImportFinal """
 
-		self.file_dialog.set_callback(self.AppendImportFinal)
-		self.file_dialog.ShowModal()
+		self.open_file_dialog.set_callback(self.AppendImportFinal)
+		self.open_file_dialog.ShowModal()
 
 	def AppendImportFinal(self, file):
 		""" Finalize the import of new items, and commit the changes to db """
@@ -156,8 +175,8 @@ class MainFrame(gui.MainFrame):
 		Substitutes values in database with values imported
 		"""
 
-		self.file_dialog.set_callback(self.ReplaceImportConfirm)
-		self.file_dialog.ShowModal()
+		self.open_file_dialog.set_callback(self.ReplaceImportConfirm)
+		self.open_file_dialog.ShowModal()
 
 	def ReplaceImportConfirm(self, file):
 		"""
@@ -172,7 +191,7 @@ class MainFrame(gui.MainFrame):
 			self.AppendImportFinal(file)
 
 	def KnaggerMoment(self, event):
-		os.popen("knagger.bat")
+		os.system("knagger.bat")
 
 	def Exit(self, event):
 		""" Close the main window, thus stopping the problem """
@@ -180,11 +199,34 @@ class MainFrame(gui.MainFrame):
 		self.Close()
 
 
-class FileDialog(gui.FileDialog):
-	""" Dialog for file-selection """
+class OpenFileDialog(gui.OpenFileDialog):
+	""" Dialog for file-selection to open an existing file """
 
 	def __init__(self, parent, callback=None):
-		gui.FileDialog.__init__(self, parent)
+		gui.OpenFileDialog.__init__(self, parent)
+		self.callback = callback
+
+	def set_callback(self, callback):
+		""" Callback can be set on initialization, but can also be set for reuse """
+
+		self.callback = callback
+		self.file_picker.SetPath("")
+
+	def Accept(self, event):
+		""" Close the dialog and return to parent """
+
+		if self.callback is None:  # If no callback is specified
+			self.EndModal(-1)
+
+		self.callback(self.file_picker.GetPath())
+		self.EndModal(0)
+
+
+class SaveFileDialog(gui.SaveFileDialog):
+	""" Dialog for file-selection to save a new file """
+
+	def __init__(self, parent, callback=None):
+		gui.SaveFileDialog.__init__(self, parent)
 		self.callback = callback
 
 	def set_callback(self, callback):
@@ -208,6 +250,7 @@ class SearchDialog(gui.LookupDialog):
 
 	def __init__(self, parent):
 		gui.LookupDialog.__init__(self, parent)
+		self.SetTitle("Søg")
 
 	def Return(self, event):
 		""" Return function, loads all items meeting the conditions specified """
@@ -236,6 +279,7 @@ class NewDialog(gui.LookupDialog):
 		gui.LookupDialog.__init__(self, parent)
 		self.return_button.SetLabel("Indsæt")  # Manually set the return button text to fit the dialog
 		self.id_box.Disable()  # User should not set id's for new items
+		self.SetTitle("Ny")
 
 	def Return(self, event):
 		""" Return function, inserts new item into the database and returns """
@@ -264,6 +308,7 @@ class UpdateDialog(gui.LookupDialog):
 	def __init__(self, parent):
 		gui.LookupDialog.__init__(self, parent)
 		self.return_button.SetLabel("Updater")  # Manually set the return button text
+		self.SetTitle("Opdater")
 
 	def Return(self, event):
 		""" Return functions, updates item given index with given values """

@@ -9,6 +9,7 @@
 
 import wx
 import wx.xrc
+import wx.dataview
 
 ###########################################################################
 ## Class MainFrame
@@ -27,42 +28,46 @@ class MainFrame ( wx.Frame ):
 
 		bSizer2 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.new = wx.Button( self, wx.ID_ANY, u"Ny", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
-		bSizer2.Add( self.new, 0, wx.ALL, 5 )
+		self.new_button = wx.Button( self, wx.ID_ANY, u"Ny", wx.DefaultPosition, wx.Size( 137,-1 ), 0 )
+		bSizer2.Add( self.new_button, 0, wx.ALL, 5 )
 
-		self.update_item = wx.Button( self, wx.ID_ANY, u"Opdater", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.update_item = wx.Button( self, wx.ID_ANY, u"Opdater", wx.DefaultPosition, wx.Size( 137,-1 ), 0 )
 		bSizer2.Add( self.update_item, 0, wx.ALL, 5 )
 
-		self.delete = wx.Button( self, wx.ID_ANY, u"Slet", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.delete = wx.Button( self, wx.ID_ANY, u"Slet", wx.DefaultPosition, wx.Size( 137,-1 ), 0 )
 		bSizer2.Add( self.delete, 0, wx.ALL, 5 )
 
-		self.knagger_button = wx.Button( self, wx.ID_ANY, u"Knagger Moment", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.knagger_button = wx.Button( self, wx.ID_ANY, u"Knagger Moment", wx.DefaultPosition, wx.Size( 137,-1 ), 0 )
 		bSizer2.Add( self.knagger_button, 0, wx.ALL, 5 )
 
 
-		bSizer16.Add( bSizer2, 1, 0, 5 )
+		bSizer16.Add( bSizer2, 1, wx.EXPAND, 5 )
 
 		bSizer17 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.advanced_search = wx.Button( self, wx.ID_ANY, u"Søg", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.advanced_search = wx.Button( self, wx.ID_ANY, u"Søg", wx.DefaultPosition, wx.Size( 187,-1 ), 0 )
 		bSizer17.Add( self.advanced_search, 0, wx.ALL, 5 )
 
-		self.reset_search = wx.Button( self, wx.ID_ANY, u"Nulstil Søgning", wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.reset_search = wx.Button( self, wx.ID_ANY, u"Nulstil Søgning", wx.DefaultPosition, wx.Size( 187,-1 ), 0 )
 		bSizer17.Add( self.reset_search, 0, wx.ALL, 5 )
 
-		self.id_input = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,-1 ), 0 )
+		self.id_input = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 187,-1 ), 0 )
 		bSizer17.Add( self.id_input, 0, wx.ALL, 5 )
 
 
 		bSizer16.Add( bSizer17, 1, 0, 5 )
 
 
-		bSizer1.Add( bSizer16, 1, 0, 5 )
+		bSizer1.Add( bSizer16, 1, wx.EXPAND, 5 )
 
 		bSizer3 = wx.BoxSizer( wx.VERTICAL )
 
-		data_viewChoices = []
-		self.data_view = wx.ListBox( self, wx.ID_ANY, wx.Point( -1,-1 ), wx.Size( 600,360 ), data_viewChoices, 0 )
+		self.data_view = wx.dataview.DataViewListCtrl( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 800,500 ), 0 )
+		self.m_dataViewListColumn1 = self.data_view.AppendTextColumn( u"Id", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn2 = self.data_view.AppendTextColumn( u"Navn", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn3 = self.data_view.AppendTextColumn( u"Forfatter", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn4 = self.data_view.AppendTextColumn( u"År", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn5 = self.data_view.AppendTextColumn( u"Name", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
 		bSizer3.Add( self.data_view, 0, wx.ALL, 5 )
 
 
@@ -85,6 +90,8 @@ class MainFrame ( wx.Frame ):
 		self.export_button = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"Eksporter", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu1.Append( self.export_button )
 
+		self.m_menu1.AppendSeparator()
+
 		self.exit_button = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"Luk", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu1.Append( self.exit_button )
 
@@ -97,7 +104,7 @@ class MainFrame ( wx.Frame ):
 
 		# Connect Events
 		self.Bind( wx.EVT_SIZE, self.OnSize )
-		self.new.Bind( wx.EVT_BUTTON, self.New )
+		self.new_button.Bind( wx.EVT_BUTTON, self.New )
 		self.update_item.Bind( wx.EVT_BUTTON, self.UpdateItem )
 		self.delete.Bind( wx.EVT_BUTTON, self.DeleteItem )
 		self.knagger_button.Bind( wx.EVT_BUTTON, self.KnaggerMoment )
@@ -152,10 +159,10 @@ class MainFrame ( wx.Frame ):
 
 
 ###########################################################################
-## Class FileDialog
+## Class OpenFileDialog
 ###########################################################################
 
-class FileDialog ( wx.Dialog ):
+class OpenFileDialog ( wx.Dialog ):
 
 	def __init__( self, parent ):
 		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Vælg fil", pos = wx.DefaultPosition, size = wx.Size( 300,120 ), style = wx.DEFAULT_DIALOG_STYLE )
@@ -165,6 +172,48 @@ class FileDialog ( wx.Dialog ):
 		bSizer21 = wx.BoxSizer( wx.VERTICAL )
 
 		self.file_picker = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.DefaultSize, wx.FLP_DEFAULT_STYLE )
+		bSizer21.Add( self.file_picker, 0, wx.ALL|wx.EXPAND, 5 )
+
+		bSizer22 = wx.BoxSizer( wx.VERTICAL )
+
+		self.accept_button = wx.Button( self, wx.ID_ANY, u"Accepter", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer22.Add( self.accept_button, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+
+
+		bSizer21.Add( bSizer22, 1, wx.EXPAND, 5 )
+
+
+		self.SetSizer( bSizer21 )
+		self.Layout()
+
+		self.Centre( wx.BOTH )
+
+		# Connect Events
+		self.accept_button.Bind( wx.EVT_BUTTON, self.Accept )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, override them in your derived class
+	def Accept( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class SaveFileDialog
+###########################################################################
+
+class SaveFileDialog ( wx.Dialog ):
+
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Vælg fil", pos = wx.DefaultPosition, size = wx.Size( 300,120 ), style = wx.DEFAULT_DIALOG_STYLE )
+
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+		bSizer21 = wx.BoxSizer( wx.VERTICAL )
+
+		self.file_picker = wx.FilePickerCtrl( self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.DefaultSize, wx.FLP_OVERWRITE_PROMPT|wx.FLP_SAVE )
 		bSizer21.Add( self.file_picker, 0, wx.ALL|wx.EXPAND, 5 )
 
 		bSizer22 = wx.BoxSizer( wx.VERTICAL )
@@ -393,10 +442,8 @@ class LogFrame ( wx.Frame ):
 
 		bSizer23 = wx.BoxSizer( wx.VERTICAL )
 
-		self.log_label = wx.StaticText( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.log_label.Wrap( -1 )
-
-		bSizer23.Add( self.log_label, 0, wx.ALL, 5 )
+		self.log_text = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,500 ), wx.TE_MULTILINE|wx.TE_READONLY )
+		bSizer23.Add( self.log_text, 0, wx.ALL|wx.EXPAND, 5 )
 
 
 		self.SetSizer( bSizer23 )
