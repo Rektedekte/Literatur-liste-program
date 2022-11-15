@@ -58,10 +58,10 @@ class MainFrame(gui.MainFrame):
 
 		self.m_dataViewListColumn1.Width = 40
 		self.m_dataViewListColumn5.Width = 60
+		self.m_dataViewListColumn4.Width = 60
 
-		self.m_dataViewListColumn2.Width = (width - 120) // 3
-		self.m_dataViewListColumn3.Width = (width - 120) // 3
-		self.m_dataViewListColumn4.Width = (width - 120) // 3
+		self.m_dataViewListColumn2.Width = (width - 175) // 2
+		self.m_dataViewListColumn3.Width = (width - 175) // 2
 
 	def IdChange(self, event):
 		"""
@@ -93,12 +93,13 @@ class MainFrame(gui.MainFrame):
 		"""
 
 		index = self.id_input.GetValue()
+		pos = None
 
 		if index:
 			for i in range(self.data_view.ItemCount):  # Iterate through items all items
-				curr = self.data_view.GetValue(i, 0)
+				pos = self.data_view.GetValue(i, 0)  # Most recent holder = self.data_view.GetValue(Stepper, 0)
 
-				if curr == index:  # If the id-field matches the input
+				if pos == index:  # If the id-field matches the input
 					pos = i
 					break
 			else:  # Loop finishes without finding index, doesn't exist
