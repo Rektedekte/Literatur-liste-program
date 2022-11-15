@@ -63,11 +63,11 @@ class MainFrame ( wx.Frame ):
 		bSizer3 = wx.BoxSizer( wx.VERTICAL )
 
 		self.data_view = wx.dataview.DataViewListCtrl( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 800,500 ), 0 )
-		self.m_dataViewListColumn1 = self.data_view.AppendTextColumn( u"Id", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
-		self.m_dataViewListColumn2 = self.data_view.AppendTextColumn( u"Navn", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
-		self.m_dataViewListColumn3 = self.data_view.AppendTextColumn( u"Forfatter", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
-		self.m_dataViewListColumn4 = self.data_view.AppendTextColumn( u"År", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
-		self.m_dataViewListColumn5 = self.data_view.AppendTextColumn( u"Name", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn1 = self.data_view.AppendTextColumn( u"Id", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_CENTER_HORIZONTAL, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn2 = self.data_view.AppendTextColumn( u"Navn", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_CENTER_HORIZONTAL, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn3 = self.data_view.AppendTextColumn( u"Forfatter", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_CENTER_HORIZONTAL, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn4 = self.data_view.AppendTextColumn( u"År", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_CENTER_HORIZONTAL, wx.dataview.DATAVIEW_COL_RESIZABLE )
+		self.m_dataViewListColumn5 = self.data_view.AppendTextColumn( u"Sider", wx.dataview.DATAVIEW_CELL_INERT, -1, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_LEFT, wx.dataview.DATAVIEW_COL_RESIZABLE )
 		bSizer3.Add( self.data_view, 0, wx.ALL, 5 )
 
 

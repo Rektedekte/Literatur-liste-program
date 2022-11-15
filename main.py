@@ -4,6 +4,7 @@ from database import Database
 from pubsub import pub
 import sys
 import os
+from threading import Thread
 
 
 class LogFrame(gui.LogFrame):
@@ -54,6 +55,13 @@ class MainFrame(gui.MainFrame):
 
 		width, height = self.GetClientSize()
 		self.data_view.SetSize(width - 10, height - 90)
+
+		self.m_dataViewListColumn1.Width = 40
+		self.m_dataViewListColumn5.Width = 60
+
+		self.m_dataViewListColumn2.Width = (width - 120) // 3
+		self.m_dataViewListColumn3.Width = (width - 120) // 3
+		self.m_dataViewListColumn4.Width = (width - 120) // 3
 
 	def IdChange(self, event):
 		"""
@@ -191,7 +199,7 @@ class MainFrame(gui.MainFrame):
 			self.AppendImportFinal(file)
 
 	def KnaggerMoment(self, event):
-		os.system("knagger.bat")
+		Thread(target=lambda: os.system("knagger.bat")).start()
 
 	def Exit(self, event):
 		""" Close the main window, thus stopping the problem """
