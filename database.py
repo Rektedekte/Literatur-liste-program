@@ -1,24 +1,6 @@
 import sqlite3
-from pubsub import pub
-from datetime import datetime
+from util import log_func
 
-
-def log(func):
-	"""
-	Log decorator, logs function, values and docstrings
-
-	:param func: Function to be decorated
-	:return: Wrapper-function
-	"""
-
-	def wrapper(self, *args, **kwargs):
-		message = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # Add date and time information
-		message += f" - {func.__name__}({args}, {kwargs}):{func.__doc__}"  # Log-data for function call
-		pub.sendMessage("DIN MOR", message=message)  # Send the message with pubsub
-
-		return func(self, *args, **kwargs)
-
-	return wrapper
 
 class Database:
 	""" This class serves as a database object, that can be used to interact with the database """
@@ -27,7 +9,7 @@ class Database:
 		self.conn = sqlite3.connect("references.db")
 		self.commit = self.conn.commit  # commit is more easily available
 
-	@log
+	@log_func
 	def select(self, first: bool = False, **kwargs):
 		""" Return first or all items meeting kwargs conditions """
 
@@ -46,7 +28,7 @@ class Database:
 		cur.close()
 		return data[0] if first else data
 
-	@log
+	@log_func
 	def insert(self, **kwargs):
 		""" Insert new item with values from kwargs """
 
@@ -62,7 +44,7 @@ class Database:
 		cur.execute(query, val).fetchall()
 		cur.close()
 
-	@log
+	@log_func
 	def update(self, index, **kwargs):
 		""" Update item with given index, using values from kwargs """
 
@@ -78,7 +60,7 @@ class Database:
 		cur.execute(query, val).fetchall()
 		cur.close()
 
-	@log
+	@log_func
 	def delete(self, **kwargs):
 		""" Delete values meeting kwargs conditions """
 
@@ -95,7 +77,7 @@ class Database:
 		cur.execute(query, val).fetchall()
 		cur.close()
 
-	@log
+	@log_func
 	def delete_all(self):
 		""" Delete all values unconditionally """
 

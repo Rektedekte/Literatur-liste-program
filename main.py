@@ -5,6 +5,8 @@ from pubsub import pub
 import sys
 import os
 from threading import Thread
+import csv
+from util import log_func, log_error
 
 
 class LogFrame(gui.LogFrame):
@@ -145,15 +147,16 @@ class MainFrame(gui.MainFrame):
 		self.save_file_dialog.set_callback(self.ExportFinal)
 		self.save_file_dialog.ShowModal()
 
+	@log_error
 	def ExportFinal(self, file):
 		""" Finalize the export of the databse """
 
-		items = db.select()
-		items = "\n".join(", ".join(str(v) for v in item[1:]) for item in items)
+		items = [item[1:] for item in db.select()]
+		# items = "\n".join(", ".join(f'"{str(v)}"' for v in item[1:]) for item in items)
 
-		with open(file, "w+", encoding="utf-8") as f:
-			# f.write("navn, forfatter, år, sider\n")
-			f.write(items)
+		with open(file, 'w+', newline='', encoding="utf-8") as f:
+			writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+			writer.writerows(items)
 
 	def AppendImport(self, event):
 		""" Start the file-dialog, and set the callback to AppendImportFinal """
@@ -161,22 +164,19 @@ class MainFrame(gui.MainFrame):
 		self.open_file_dialog.set_callback(self.AppendImportFinal)
 		self.open_file_dialog.ShowModal()
 
+	@log_error
 	def AppendImportFinal(self, file):
 		""" Finalize the import of new items, and commit the changes to db """
 
-		try:
-			with open(file, "r", encoding="utf-8") as f:
-				lines = f.read().splitlines()
+		with open(file, "r", encoding="utf-8") as f:
+			reader = csv.reader(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+			reader = csv.reader("d")
 
-			for line in lines:
-				name, author, year, pages = line.split(", ")
+			for name, author, year, pages in reader:
 				db.insert(navn=name, forfatter=author, år=year, sider=pages)
 
-			db.commit()
-			self.IdChange(None)
-
-		except:
-			pass  # Hehe
+		db.commit()
+		self.IdChange(None)
 
 	def ReplaceImport(self, event):
 		"""
