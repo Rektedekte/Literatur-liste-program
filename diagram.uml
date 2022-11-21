@@ -1,0 +1,92 @@
+@startuml
+class MainFrame {
+SearchDialog search_dialog
+NewDialog new_dialog
+UpdateDialog update_dialog
+OpenFileDialog open_file_dialog
+SaveFileDialog save_file_dialog
+ReplaceDialog replace_dialog
+LogFrame log_frame
+
+void OnSize(self, event)
+void IdChange(self, event)
+void SetItems(self, items)
+void DeleteItem(self, event)
+void Search(self, event)
+void New(self, event)
+void UpdateItem(self, event)
+void ResetSearch(self, event)
+void Export(self, event)
+void ExportFinal(self, file)
+void AppendImport(self, event)
+void AppendImportFinal(self, file)
+void ReplaceImport(self, event)
+void ReplaceImportConfirm(self, file)
+void KnaggerMoment(self, event)
+void Exit(self, event)
+}
+
+class LogFrame {
+void listener(self, message)
+}
+
+class OpenFileDialog {
+func callback
+void set_callback(self, callback)
+void Accept(self, event)
+}
+
+class SaveFileDialog {
+func callback
+void set_callback(self, callback)
+void Accept(self, event)
+}
+
+class SearchDialog {
+void Return(self, event)
+}
+
+class NewDialog {
+void Return(self, event)
+}
+
+class UpdateDialog {
+void Return(self, event)
+}
+
+class ReplaceDialog {
+void Accept(self, event)
+void Cancel(self, event)
+}
+
+class Database {
+sqlite3.Connection conn
+list select(self, first: bool = False, **kwargs)
+void insert(self, **kwargs)
+void update(self, index, **kwargs)
+void delete(self, **kwargs)
+void delete_all(self)
+}
+
+guiMainFrame <|-- MainFrame
+guiLogFrame <|-- LogFrame
+guiOpenFileDialog <|-- OpenFileDialog
+guiSaveFileDialog <|-- SaveFileDialog
+guiLookupDialog <|-- SearchDialog
+guiLookupDialog <|-- NewDialog
+guiLookupDialog <|-- UpdateDialog
+guiApprovalDialog <|-- ReplaceDialog
+
+class guiLookupDialog {
+void Return(self, event)
+}
+
+MainFrame *-- LogFrame
+MainFrame *-- OpenFileDialog
+MainFrame *-- SaveFileDialog
+MainFrame *-- SearchDialog
+MainFrame *-- NewDialog
+MainFrame *-- UpdateDialog
+MainFrame *-- ReplaceDialog
+
+@enduml
