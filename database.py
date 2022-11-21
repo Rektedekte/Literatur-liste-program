@@ -22,7 +22,6 @@ class Database:
 			query = "SELECT * FROM books"
 		else:
 			query = f"SELECT * FROM books WHERE {attr}"
-			query.format(attr)
 
 		data = cur.execute(query, val).fetchall()
 		cur.close()
