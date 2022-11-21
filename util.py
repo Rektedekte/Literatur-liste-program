@@ -29,7 +29,7 @@ def log_error(func):
 			return func(self, *args, **kwargs)
 		except:
 			message = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # Add date and time information
-			message += f" - Error in {func.__name__}({args}, {kwargs}):\n{traceback.format_exc()}"
-			pub.sendMessage("DIN MOR", message=message)
+			message += f" - Error in {func.__name__}({args}, {kwargs}):\n{traceback.format_exc()}"  # Log the traceback
+			pub.sendMessage("DIN MOR", message=message)  # Send the message with pubsub
 
 	return wrapper

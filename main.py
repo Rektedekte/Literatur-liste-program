@@ -170,7 +170,6 @@ class MainFrame(gui.MainFrame):
 
 		with open(file, "r", encoding="utf-8") as f:
 			reader = csv.reader(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-			reader = csv.reader("d")
 
 			for name, author, year, pages in reader:
 				db.insert(navn=name, forfatter=author, år=year, sider=pages)

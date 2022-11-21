@@ -640,7 +640,7 @@
                                 <property name="window_name"></property>
                                 <property name="window_style"></property>
                                 <object class="dataViewListColumn" expanded="1">
-                                    <property name="align">wxALIGN_LEFT</property>
+                                    <property name="align">wxALIGN_CENTER_HORIZONTAL</property>
                                     <property name="ellipsize"></property>
                                     <property name="flags">wxDATAVIEW_COL_RESIZABLE</property>
                                     <property name="label">Id</property>
@@ -651,7 +651,7 @@
                                     <property name="width">-1</property>
                                 </object>
                                 <object class="dataViewListColumn" expanded="1">
-                                    <property name="align">wxALIGN_LEFT</property>
+                                    <property name="align">wxALIGN_CENTER_HORIZONTAL</property>
                                     <property name="ellipsize"></property>
                                     <property name="flags">wxDATAVIEW_COL_RESIZABLE</property>
                                     <property name="label">Navn</property>
@@ -662,7 +662,7 @@
                                     <property name="width">-1</property>
                                 </object>
                                 <object class="dataViewListColumn" expanded="1">
-                                    <property name="align">wxALIGN_LEFT</property>
+                                    <property name="align">wxALIGN_CENTER_HORIZONTAL</property>
                                     <property name="ellipsize"></property>
                                     <property name="flags">wxDATAVIEW_COL_RESIZABLE</property>
                                     <property name="label">Forfatter</property>
@@ -673,7 +673,7 @@
                                     <property name="width">-1</property>
                                 </object>
                                 <object class="dataViewListColumn" expanded="1">
-                                    <property name="align">wxALIGN_LEFT</property>
+                                    <property name="align">wxALIGN_CENTER_HORIZONTAL</property>
                                     <property name="ellipsize"></property>
                                     <property name="flags">wxDATAVIEW_COL_RESIZABLE</property>
                                     <property name="label">År</property>
@@ -684,10 +684,10 @@
                                     <property name="width">-1</property>
                                 </object>
                                 <object class="dataViewListColumn" expanded="1">
-                                    <property name="align">wxALIGN_LEFT</property>
+                                    <property name="align">wxALIGN_CENTER_HORIZONTAL|wxALIGN_LEFT</property>
                                     <property name="ellipsize"></property>
                                     <property name="flags">wxDATAVIEW_COL_RESIZABLE</property>
-                                    <property name="label">Name</property>
+                                    <property name="label">Sider</property>
                                     <property name="mode">wxDATAVIEW_CELL_INERT</property>
                                     <property name="name">m_dataViewListColumn5</property>
                                     <property name="permission">protected</property>
