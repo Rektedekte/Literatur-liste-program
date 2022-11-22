@@ -22,7 +22,6 @@ class Database:
 			query = "SELECT * FROM books"
 		else:
 			query = f"SELECT * FROM books WHERE {attr}"
-			query.format(attr)
 
 		cur_exec = cur.execute(query, val)
 		data = cur_exec.fetchone() if first else cur_exec.fetchall()
