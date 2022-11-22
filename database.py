@@ -24,9 +24,10 @@ class Database:
 			query = f"SELECT * FROM books WHERE {attr}"
 			query.format(attr)
 
-		data = cur.execute(query, val).fetchall()
+		cur_exec = cur.execute(query, val)
+		data = cur_exec.fetchone() if first else cur_exec.fetchall()
 		cur.close()
-		return data[0] if first else data
+		return data
 
 	@log_func
 	def insert(self, **kwargs):

@@ -1,4 +1,5 @@
 @startuml
+
 class MainFrame {
 SearchDialog search_dialog
 NewDialog new_dialog
@@ -76,10 +77,6 @@ guiLookupDialog <|-- SearchDialog
 guiLookupDialog <|-- NewDialog
 guiLookupDialog <|-- UpdateDialog
 guiApprovalDialog <|-- ReplaceDialog
-
-class guiLookupDialog {
-void Return(self, event)
-}
 
 MainFrame *-- LogFrame
 MainFrame *-- OpenFileDialog
