@@ -88,5 +88,5 @@ class Database:
 
 		query = f"DELETE FROM books"
 
-		cur.execute(query).fetchall()
+		cur.execute(query)
 		cur.close()

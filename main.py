@@ -6,7 +6,7 @@ import sys
 import os
 from threading import Thread
 import csv
-from util import log_func, log_error
+from util import log_error
 
 
 class LogFrame(gui.LogFrame):
@@ -349,7 +349,7 @@ class ReplaceDialog(gui.ApprovalDialog):
 		self.validate_text.SetLabel("Er du sikker på, at du vil overskrive din database? "
 									"Denne handling kan ikke omvendes. "
 									"Overvej at eksporterer din nuværende database først.")
-		self.validate_text.Wrap(250)  # Generalize ApprovalDialog for future use, manually set test and wrap it
+		self.validate_text.Wrap(250)  # Generalize ApprovalDialog for future use, manually set text and wrap it
 
 	def Accept(self, event):
 		self.EndModal(0)
